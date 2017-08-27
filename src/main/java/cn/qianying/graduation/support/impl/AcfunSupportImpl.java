@@ -33,7 +33,6 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 	VideoAuthorMapper videoAuthorMapper;
 	@Autowired
 	GrabLibMapper grabLibMapper;
-
 	/**
 	 * 分析主页面的头部信息
 	 */
