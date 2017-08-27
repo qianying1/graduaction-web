@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qianying.graduation.dao.mapper.GrabMessageMapper">
+	<select id="listAll" resultType="cn.qianying.graduation.domain.GrabMessage">
+		select * from
+		tb_analized_message
+	</select>
+
+	<insert id="addRecord" parameterType="cn.qianying.graduation.domain.GrabMessage">
+		insert into tb_analized_message
+		values(date_format(Now(),'%Y%m%d%H%i%s'),#{username,jdbcType=CHAR},#{age,jdbcType=CHAR},#{gender,jdbcType=CHAR});
+	</insert>
+
+	<insert id="saveOrUpdate" parameterType="cn.qianying.graduation.domain.GrabMessage">
+		insert into tb_analized_message(id,username,age,gender)
+		values(#{id,jdbcType=CHAR},#{username,jdbcType=CHAR},#{age,jdbcType=CHAR},date_format(Now(),'%Y%m%d%H%i%s'))
+		ON DUPLICATE KEY UPDATE
+		username=#{username,jdbcType=CHAR},age=#{age,jdbcType=CHAR},gender=date_format(Now(),'%Y%m%d%H%i%s');
+	</insert>
+
+	<select id='getDetail' resultType='cn.qianying.graduation.domain.GrabMessage'
+		parameterType="java.lang.String">
+		select userName,age,gender from tb_analized_message
+		where id=#{id,jdbcType=VARCHAR};
+	</select>
+</mapper>

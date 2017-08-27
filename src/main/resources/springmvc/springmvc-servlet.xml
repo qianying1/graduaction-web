@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+	<!-- 启动注解，注册服务，如验证框架、全局类型转换器 -->
+	<mvc:annotation-driven />
+	<!-- 处理器，处理器映射器，处理器适配器，视图解析器,注解扫描 -->
+	<context:component-scan base-package="cn.qianying.graduation.web.controller"><!-- 制定扫包规则 
+			,只扫描使用@Controller注解的JAVA类 -->
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 对静态资源文件的访问 -->  
+    <mvc:resources location="/Images/" mapping="/images/**"/>  
+    <mvc:resources location="/WEB-INF/lib/js/" mapping="/js/**"/>  
+    <mvc:resources location="/WEB-INF/lib/projectjs/" mapping="/projectjs/**"/>  
+    <mvc:resources location="/WEB-INF/lib/css/" mapping="/css/**"/>  
+    <mvc:resources location="/WEB-INF/lib/fonts/" mapping="/fonts/**"/>  
+    <mvc:resources location="/WEB-INF/lib/resources/" mapping="/resources/**"/>  
+    <mvc:resources location="/WEB-INF/lib/bootstrap/" mapping="/bootstrap/**"/>  
+    <mvc:resources location="/WEB-INF/lib/build/" mapping="/build/**"/> 
+    
+	<bean id="jspView"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qianying.graduation.dao.mapper.GrabLibMapper">
+
+	<insert id="insertGrabLib" parameterType="cn.qianying.graduation.domain.GrabLib">
+		insert into
+		tb_grab_lib(content_id,web_name,web_site_addr,grab_sign,add_time)
+		values(#{contentId,jdbcType=BIGINT},#{webName,jdbcType=VARCHAR},#{webSiteAddr,jdbcType=VARCHAR},#{grabSign,jdbcType=VARCHAR},date_format(Now(),'%Y%m%d:%H-%i-%s'));
+	</insert>
+
+	<insert id="insertGrabLibs" parameterType="java.util.List">
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into
+		tb_grab_lib(content_id,web_name,web_site_addr,grab_sign,add_time)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.contentId,jdbcType=BIGINT},#{item.webName,jdbcType=VARCHAR},#{item.webSiteAddr,jdbcType=VARCHAR},#{item.grabSign,jdbcType=VARCHAR},date_format(Now(),'%Y%m%d
+			%H-%i-%s'))
+		</foreach>
+	</insert>
+
+	<select id="selectGrabLib" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select web_name from tb_grab_lib where
+		web_site_addr=#{url,jdbcType=VARCHAR} AND grab_sign='Y'
+	</select>
+
+	<select id="selectGrabLibs" parameterType="java.lang.String"
+		resultType="java.util.List">
+		select * from tb_grab_lib where
+		web_site_addr=#{url,jdbcType=VARCHAR} AND grab_sign='Y'
+	</select>
+</mapper>

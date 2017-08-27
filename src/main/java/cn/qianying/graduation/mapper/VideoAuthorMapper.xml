@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qianying.graduation.dao.mapper.VideoAuthorMapper">
+	<insert id="insertVideoAuthor" parameterType="cn.qianying.graduation.domain.VideoAuthor"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into
+		tb_video_author(signature,video_count,attention_count,audience_count,author_page_url,author_pic,author_name)
+		values(#{signature,jdbcType=TEXT},#{videoCount,jdbcType=INT},#{attentionCount,jdbcType=INT},#{audienceCount,jdbcType=INT},#{authorPageUrl,jdbcType=TEXT},#{authorPic,jdbcType=VARCHAR},#{authorName,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="selectVideoAuthors" parameterType="java.lang.String"
+		resultType="java.util.List">
+		select * from tb_video_author where
+		author_page_url=#{authorPageUrl}
+	</select>
+</mapper>
