@@ -21,6 +21,7 @@ import cn.qianying.graduation.support.AcfunSupport;
 
 /**
  * 对acfun视频网站进行叶面抓取分析
+ * 
  * @author qianying
  *
  */
@@ -33,24 +34,21 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 	VideoAuthorMapper videoAuthorMapper;
 	@Autowired
 	GrabLibMapper grabLibMapper;
+
 	/**
 	 * 分析主页面的头部信息
 	 */
 	@Override
 	public List<String> analizeHeader(Element header) {
-
 		Element nav = header.getElementById("nav");
 		Elements ahrefs = nav.select("a");
-
 		List<String> urls = new ArrayList<String>();
 		for (Element ahref : ahrefs) {
-
 			String url = ahref.attr("abs:href");
 			if (null != url && !"".equals(url)) {
 				urls.add(url);
 			}
 		}
-
 		return urls;
 	}
 
@@ -69,6 +67,7 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 
 	/**
 	 * 分析除了第一个section以外的其他section的信息
+	 * 
 	 * @param otherSections
 	 */
 	private void analizeOtherSections(Elements otherSections) {
@@ -85,11 +84,12 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 
 	/**
 	 * 分析页面的第一个section节点信息
+	 * 
 	 * @param firstSection
 	 */
 	private void analizeFirstSection(Element firstSection) {
 
-		//获取第一个Section中的内容节点
+		// 获取第一个Section中的内容节点
 		Element sliderWrap = firstSection.getElementsByClass("slider-wrap").get(0);
 		Element sliderRight = firstSection.getElementsByClass("slider-right-x6").get(0);
 
@@ -109,23 +109,21 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 	}
 
 	/**
-	 *  处理主页左边轮播链接得到的页面
+	 * 处理主页左边轮播链接得到的页面
+	 * 
 	 * @param urList
 	 */
 	private void handleSliderWrap(List<String> urList) {
-
 		for (String url : urList) {
-
-			if (isVideoPageAnalized(url)) {
-
+			if (isVideoPageAnalized(url))
 				continue;
-			}
 			videoPageAnalize(url);
 		}
 	}
 
 	/**
 	 * 判断当前视频页是否已经被分析过
+	 * 
 	 * @param url
 	 * @return
 	 */
@@ -140,10 +138,10 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 
 	/**
 	 * 视频页分析器
+	 * 
 	 * @param url
 	 */
 	private void videoPageAnalize(String url) {
-
 		Connection connection = Jsoup.connect(url)
 				.userAgent(
 						"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2906.0 Safari/537.36")
@@ -154,9 +152,7 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		if (document != null) {
-
 			Element mainEl = document.getElementById("main");
 
 			// 获取头部信息
@@ -171,14 +167,12 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 			// 获取视频下的各种例如评论数量等信息
 			Element crumpDatas = mainEl.select("section.clearfix.wp.area.crumb").first();
 			String viewCount = crumpDatas.select("span.view.f1").first().select("span.sp2").first().text();
-
 			int danmu = Integer.valueOf(crumpDatas.select("span.danmu.f1").first().select("span.sp2").first().text());
 			int commentCount = Integer.valueOf(crumpDatas.getElementById("bd_comm").select("span.sp2").first().text());
 			int likeCount = Integer
 					.valueOf(crumpDatas.getElementById("bd_collection").select("span.sp4").first().text());
 			int bananaCount = Integer
 					.valueOf(crumpDatas.select("span.banana.f1").first().select("span.sp4").first().text());
-
 			Element userDiv = mainEl.select("div.introduction").first().select("section.clearfix.wp.area").first()
 					.select("div.column-right.fr").first();
 			String signature = userDiv.select("div.bottom").first().select("div.desc").first().text();
@@ -219,6 +213,7 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 
 	/**
 	 * 判断视频作者信息是否已经被插入
+	 * 
 	 * @param authorPageUrl
 	 * @return
 	 */
@@ -234,6 +229,7 @@ public class AcfunSupportImpl extends CommonSupportImpl implements AcfunSupport 
 
 	/**
 	 * 分析视频作者页面信息
+	 * 
 	 * @param signature
 	 * @param authorName
 	 * @param authorPageUrl
